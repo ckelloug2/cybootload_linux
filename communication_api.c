@@ -81,7 +81,7 @@ int OpenConnection(void)
   tio.c_cflag=CS8|CREAD|CLOCAL;           // 8n1, see termios.h for more information
   tio.c_cflag|=CRTSCTS;                   // Turn On Flow Control CDK
   tio.c_lflag=0;
-  tio.c_cc[VMIN]=1;
+  tio.c_cc[VMIN]=0;
   tio.c_cc[VTIME]=5;
 
 
