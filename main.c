@@ -201,7 +201,7 @@ int main(int argc, char **argv)
   }
  
   printf("[INFO] Starting boot loader operation\n");
-  printf("[INFO] Serial Port: %s\n",MODEMDEV);
+  printf("[INFO] Serial Port: %s\n",serial_port);
   stringImage = (char ***)malloc(sizeof(char**));
   readCyacd(argv[optind],&lines,stringImage);
 #if 0

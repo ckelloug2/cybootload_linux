@@ -40,6 +40,21 @@ extern int errno;
  *******************************************************************************/
 extern char * serial_port;
 extern int serial_speed;
+
+void enable_download(int fd){
+
+  unsigned char preamble[]={0x50,0x40,0x49};
+  unsigned char message[]={0,14,0}; /*seqnum 0, message type 14 (update), payload length 0*/
+  unsigned char foo[1024];
+
+  fprintf(stderr,"Writing message to request download mode\n");
+  write(fd,preamble,sizeof(preamble));
+  write(fd,message,sizeof(message));
+  fprintf(stderr,"Wrote message to request download mode\n");
+  read(fd,foo,1024);
+  fprintf(stderr,"Drained buffer\n");
+}
+
 int OpenConnection(void)
 {
   /*
@@ -64,6 +79,7 @@ int OpenConnection(void)
   tio.c_iflag=0;
   tio.c_oflag=0;
   tio.c_cflag=CS8|CREAD|CLOCAL;           // 8n1, see termios.h for more information
+  tio.c_cflag|=CRTSCTS;                   // Turn On Flow Control CDK
   tio.c_lflag=0;
   tio.c_cc[VMIN]=1;
   tio.c_cc[VTIME]=5;
@@ -102,6 +118,10 @@ int OpenConnection(void)
     printf("[ERROR] %s\n",strerror(errno));
     return (CYRET_ERR_FILE);    
   }
+  
+  enable_download(tty_fd); /* Sends download enable command to doppler*/
+  sleep(1);
+  
   return(CYRET_SUCCESS);
 }
 
