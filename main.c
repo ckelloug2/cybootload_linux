@@ -177,6 +177,7 @@ void error_info_bootldr(uint16 error)
 int main(int argc, char **argv)
 {
   uint16 error = 0;
+  int retval=0;
   int lines;
   char *** stringImage = NULL;
   int opt;
@@ -226,11 +227,13 @@ int main(int argc, char **argv)
   if(error == CYRET_SUCCESS)
     {	
       printf("[INFO] Bootloader operation succesful\n");
+      retval=0;
     } else 
     {
-      error_info_bootldr(error);	
+      error_info_bootldr(error);
+      retval=1;
     }
-  return(0);
+  return(retval);
 }
 
 /****************************************************************************************************
