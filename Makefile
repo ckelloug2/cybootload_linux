@@ -3,10 +3,10 @@ OBJ=$(subst .c,.o,$(SRC))
 all: cybootload_linux
 
 %.o: %.c
-	${CC} ${LDFLAGS} -Wall -g -c $< -o $@
+	${CC} ${LDFLAGS} -Wall  -c $< -o $@
 
 cybootload_linux: $(OBJ)
-	${CC} ${LDFLAGS} -Wall -g -o $@ $+
+	${CC} ${LDFLAGS} -Wall  -o $@ $+
 
 test1:
 	./cybootload_linux "test/Bootloadable Blinking LED.cyacd"
